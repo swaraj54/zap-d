@@ -9,11 +9,8 @@ export const getCryptos = async (req, res) => {
                 per_page: 100,
                 page: 1,
                 sparkline: false,
-            },
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CoinGecko-API-Key': process.env.COINGECKO_API_KEY,
-            },
+                'x_cg_demo_api_key': process.env.COINGECKO_API_KEY,
+            }
         });
 
         const cryptoList = response.data.map((crypto) => ({
