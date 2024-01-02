@@ -1,8 +1,8 @@
 import axios from "axios";
 
-var BackendUrl = "https://dzap-backend-server.onrender.com/"
+var BackendUrl = "https://dzap-backend-server.onrender.com/api/v1"
 if (process.env.MODE === "PRODUCTION") {
-    BackendUrl = "https://dzap-backend-server.onrender.com/"
+    BackendUrl = "https://dzap-backend-server.onrender.com/api/v1"
 }
 
 const api = axios.create({ baseURL: BackendUrl })
