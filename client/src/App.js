@@ -17,6 +17,7 @@ const App = () => {
       image: '',
     },
   });
+  const [supportedCurrencies, setSupportedCurrencies] = useState([]);
 
   const fetchCryptoList = async () => {
     try {
@@ -28,8 +29,18 @@ const App = () => {
     }
   };
 
+  const fetchSupportedCurrencies = async () => {
+    try {
+      const response = await api.get('/cryptos/get-currencies');
+      setSupportedCurrencies(response.data.supportedCurrencies);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchCryptoList();
+    fetchSupportedCurrencies();
   }, []);
 
   const handleConvert = async () => {
@@ -107,7 +118,7 @@ const App = () => {
           />
         </label>
         <br />
-        <label>
+        {/* <label>
           Target Currency:<br />
           <input
             required
@@ -115,6 +126,21 @@ const App = () => {
             value={cryptoData.targetCurrency}
             onChange={(e) => setCryptoData((prev) => ({ ...prev, targetCurrency: e.target.value }))}
           />
+        </label> */}
+        <label>
+          Target Currency:<br />
+          <select
+            required
+            value={cryptoData.targetCurrency}
+            onChange={(e) => setCryptoData((prev) => ({ ...prev, targetCurrency: e.target.value }))}
+          >
+            <option value="">Select Currency</option>
+            {supportedCurrencies.map((currency) => (
+              <option key={currency} value={currency}>
+                {currency}
+              </option>
+            ))}
+          </select>
         </label>
         <br />
         <button

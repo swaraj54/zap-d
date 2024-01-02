@@ -27,3 +27,18 @@ export const getCryptos = async (req, res) => {
         res.status(500).json({ error: error?.response?.statusText });
     }
 }
+
+export const getSupportedCurrencies = async (req, res) => {
+    try {
+        const response = await axios.get('https://api.coingecko.com/api/v3/simple/supported_vs_currencies', {
+            params: {
+                'x_cg_demo_api_key': process.env.COINGECKO_API_KEY,
+            }
+        });
+        const supportedCurrencies = response.data;
+        res.status(200).json({ supportedCurrencies });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
