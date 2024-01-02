@@ -14,6 +14,10 @@ export const convert = async (req, res) => {
                 ids: sourceCrypto,
                 vs_currencies: targetCurrency,
             },
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CoinGecko-API-Key': process.env.COINGECKO_API_KEY,
+            },
         });
 
         const exchangeRate = response.data[sourceCrypto][targetCurrency];
