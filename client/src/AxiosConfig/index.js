@@ -1,6 +1,6 @@
 import axios from "axios";
 
-var BackendUrl = "http://localhost:8000/api/v1"
+var BackendUrl = "https://dzap-backend-server.onrender.com/"
 if (process.env.MODE === "PRODUCTION") {
     BackendUrl = "https://dzap-backend-server.onrender.com/"
 }
