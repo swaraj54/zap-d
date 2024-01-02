@@ -38,7 +38,11 @@ const App = () => {
       const response = await api.get('/conversions/convert', {
         params: { sourceCrypto, amount, targetCurrency },
       });
-      toast.success(`Converted Amount is ${response.data.convertedAmount}`);
+      if (response.data.convertedAmount === null) {
+        toast.error("You might have added wrong Target Currency!")
+      } else {
+        toast.success(`Converted Amount is ${response.data.convertedAmount}`);
+      }
       setCryptoData((prev) => ({ ...prev, convertedAmount: response.data.convertedAmount }));
     } catch (error) {
       console.error(error);
@@ -89,7 +93,18 @@ const App = () => {
         <br />
         <label>
           Amount:<br />
-          <input type="number" required value={cryptoData.amount} onChange={(e) => setCryptoData((prev) => ({ ...prev, amount: e.target.value }))} />
+          <input
+            type="number"
+            required
+            value={cryptoData.amount}
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              // Check if the input is a valid positive number
+              if (/^\d*\.?\d*$/.test(inputValue)) {
+                setCryptoData((prev) => ({ ...prev, amount: inputValue }));
+              }
+            }}
+          />
         </label>
         <br />
         <label>
@@ -102,9 +117,14 @@ const App = () => {
           />
         </label>
         <br />
-        <button disabled={!cryptoData.sourceCrypto} type="button" onClick={handleConvert}>
+        <button
+          disabled={!cryptoData.sourceCrypto || cryptoData.amount === '' || cryptoData.targetCurrency === ''}
+          type="button"
+          onClick={handleConvert}
+        >
           Convert
         </button>
+
       </form>
       {cryptoData.convertedAmount !== null && (
         <div className="converted-amount">
